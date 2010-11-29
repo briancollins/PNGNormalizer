@@ -4,6 +4,8 @@
 @interface CTPNGNormalizer : NSObject {
 }
 
-+ (NSImage *)imageWithContentsOfFile:(NSString *)path;
++ (NSData *)dataFromPNGData:(NSData *)d;
++ (NSData *)dataWithContentsOfPNGFile:(NSString *)path;
++ (NSImage *)imageWithContentsOfPNGFile:(NSString *)path;
 
 @end

@@ -7,9 +7,8 @@
 
 @implementation CTPNGNormalizer
 
-+ (NSImage *)imageWithContentsOfFile:(NSString *)path {
++ (NSData *)dataFromPNGData:(NSData *)d {
 	NSMutableData *newpng = [[[NSMutableData alloc] init] autorelease];
-	NSData *d = [[[NSData alloc] initWithContentsOfFile:path] autorelease];
 	
 	uint8 *p = (uint8 *)[d bytes];
 	size_t len = [d length];
@@ -44,13 +43,13 @@
 			}
 			
 			z_stream strm;
-
+			
 			strm.avail_in = chunkLen;
 			strm.next_in = chunkData;
 			strm.zalloc = Z_NULL;
 			strm.zfree = Z_NULL;
 			strm.opaque = Z_NULL;
-
+			
 			strm.avail_out = out_len;
 			strm.next_out = decompress_buf;
 			inflateInit2(&strm, -8);
@@ -123,8 +122,16 @@
 	
 	free(decompress_buf);
 	free(compress_buf);
-		
-	return [[[NSImage alloc] initWithData:newpng] autorelease];
+	return newpng;
+}
+
++ (NSData *)dataWithContentsOfPNGFile:(NSString *)path {
+	NSData *d = [[[NSData alloc] initWithContentsOfFile:path] autorelease];
+	return [self dataFromPNGData:d];
+}
+
++ (NSImage *)imageWithContentsOfPNGFile:(NSString *)path {		
+	return [[[NSImage alloc] initWithData:[self dataWithContentsOfPNGFile:path]] autorelease];
 }
 
 @end
