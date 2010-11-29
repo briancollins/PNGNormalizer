@@ -117,3 +117,18 @@ uint32_t updateCRC32(unsigned char ch, uint32_t crc)
 {
 	return UPDC32(ch, crc);
 }
+
+uint32_t updateCRC32Uint32(uint32_t u, uint32_t crc) {
+	uint8_t *c = (uint8_t *)&u;
+	crc = UPDC32(c[0], crc);
+	crc = UPDC32(c[1], crc);
+	crc = UPDC32(c[2], crc);
+	return UPDC32(c[3], crc);
+}
+
+uint32_t updateCRC32Bytes(uint8_t *bytes, uint32_t len, uint32_t crc) {
+	for (int i = 0; i < len; i++) {
+		crc = UPDC32(bytes[i], crc);
+	}
+	return crc;
+}
