@@ -81,7 +81,7 @@ uint32 peekUint32(uint8 *head) {
 		
 	
 		uint32 l = htonl(chunk_len);
-		[newpng appendBytes:&l length:sizeof(uint32)];
+		[newpng appendBytes:&l length:4];
 		l = htonl(chunk_type);
 		[newpng appendBytes:&l length:4];
 		[newpng appendBytes:chunk_data length:chunk_len];
